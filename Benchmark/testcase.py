@@ -243,5 +243,5 @@ def testcase(latency, nodes, n, samplenumber, coefficient, bwlimit):
 
 
 
-testcase(nodes=[18,21],n=0.2,samplenumber=10, coefficient=7,latency = 1000, bwlimit = 20)
+# testcase(nodes=[18,21],n=0.2,samplenumber=10, coefficient=7,latency = 1000, bwlimit = 20)
 
