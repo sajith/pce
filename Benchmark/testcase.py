@@ -163,7 +163,7 @@ def graphgenerator():
     
     
     
-def testcase(latency, nodes, n, samplenumber, coefficient, bwlimit):
+def test(latency, nodes, n, samplenumber, coefficient, bwlimit):
     data=[]    
     length = int(nodes[1]-nodes[0])
     for i in range(length):
@@ -242,6 +242,6 @@ def testcase(latency, nodes, n, samplenumber, coefficient, bwlimit):
     graphgenerator()
 
 
-
-# testcase(nodes=[18,21],n=0.2,samplenumber=10, coefficient=7,latency = 1000, bwlimit = 20)
-
+#
+# test(nodes=[18,21],n=0.2,samplenumber=10, coefficient=7,latency = 1000, bwlimit = 20)
+#
