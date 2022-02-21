@@ -33,6 +33,30 @@ def create_data_model():
     
     return data
 
+def pathlookup(solution):
+    with open('linklist.json') as f:
+        linklist = json.load(f)
+    linkindex = []
+    for i in range(len(solution)):
+        if abs(solution[int(i)] - 1) < 0.01:
+            linkindex.append(i)
+    linkselection = []
+
+    for i in linkindex:
+        linkselection.append(linklist[int(i)])
+    return (linkselection,linkindex)
+
+def solutiontranslator(solution):
+    output = []
+    c = 0
+    for i in solution:
+        if abs(i - 1) <= 0.001:
+            output.append(c)
+        c+=1
+    return output
+
+
+
 
 def solvermethod():
     data = create_data_model()
@@ -79,10 +103,13 @@ def solvermethod():
 
     else:
         print('The problem does not have an optimal solution.')
-    return [value,solver.wall_time()]
+
+    linkselection = pathlookup(solution)
+    solutionnum = solutiontranslator(solution)
+    return linkselection
 
 
 
 
-# print(solvermethod())
+print(solvermethod()[0])
 
