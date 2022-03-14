@@ -94,6 +94,7 @@ def heur_byweight(g, nodes, max_latency):
     time_used = (time_end - time_start) * 1000
 
     return [solution, time_used]
+
 def zerolistmaker(n):
     listofzeros = [0] * n
     return listofzeros

@@ -14,7 +14,7 @@ import time
 
 
 def create_data_model():
-    with open('data.json') as f:
+    with open('LB_data.json') as f:
           graph = json.load(f)
   
   
@@ -34,7 +34,7 @@ def create_data_model():
     return data
 
 def pathlookup(solution):
-    with open('linklist.json') as f:
+    with open('LB_linklist.json') as f:
         linklist = json.load(f)
     linkindex = []
     for i in range(len(solution)):
