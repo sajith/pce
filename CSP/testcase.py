@@ -1,26 +1,3 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Tue Feb  1 12:28:19 2022
-
-@author: yifeiwang
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Dec 25 15:13:44 2021
-
-@author: yifeiwang
-"""
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Created on Sat Dec 25 14:28:47 2021
-
-@author: yifeiwang
-"""
 from solver import solvermethod
 from randomgraph import nxgraphgenerator
 import numpy as np
@@ -163,7 +140,7 @@ def graphgenerator():
     
     
     
-def testcase(latency, nodes, n, samplenumber, coefficient, bwlimit):
+def test(latency, nodes, n, samplenumber, coefficient, bwlimit):
     data=[]    
     length = int(nodes[1]-nodes[0])
     for i in range(length):
@@ -242,6 +219,6 @@ def testcase(latency, nodes, n, samplenumber, coefficient, bwlimit):
     graphgenerator()
 
 
-
-testcase(nodes=[18,21],n=0.2,samplenumber=10, coefficient=7,latency = 1000, bwlimit = 20)
-
+#
+# test(nodes=[18,21],n=0.2,samplenumber=10, coefficient=7,latency = 1000, bwlimit = 20)
+#

@@ -94,6 +94,7 @@ def heur_byweight(g, nodes, max_latency):
     time_used = (time_end - time_start) * 1000
 
     return [solution, time_used]
+
 def zerolistmaker(n):
     listofzeros = [0] * n
     return listofzeros
@@ -151,7 +152,31 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency, sor
     except IndexError:
         output = "Null"
     return [output,time]
-    
+
+def bwlinklist(g,link_list):
+    bwlinklist = {}
+    for u,v,w in g.edges(data=True):
+        bwlinklist[u,v] = w["bandwidth"]
+
+    print(bwlinklist)
+
+    bwlinkdict = []
+    for pair in link_list:
+        if (pair[0], pair[1]) in bwlinklist:
+            # print("pair"+str((pair[0], pair[1])))
+            bw = bwlinklist[(pair[0], pair[1])]
+            bwlinkdict.append(bw)
+        else:
+            bw = bwlinklist[(pair[1], pair[0])]
+            bwlinkdict.append(bw)
+    #
+    with open('bwlinklist.json', 'w') as json_file:
+        data = bwlinkdict
+        json.dump(data, json_file, indent=4)
+    print(bwlinkdict)
+
+
+
 def nxgraphgenerator(nodes,p,max_latency,bwlimit):
     # random.seed(1)
     g = erdos_renyi_graph(nodes,p)
@@ -163,6 +188,8 @@ def nxgraphgenerator(nodes,p,max_latency,bwlimit):
             g = erdos_renyi_graph(nodes,p)
     bwassign(g)
     bwfilter(g, bwlimit)
+
+
 
         
     link_dict = {}
@@ -290,12 +317,17 @@ def nxgraphgenerator(nodes,p,max_latency,bwlimit):
     except IndexError:
         latencyoutput = "Null"
         weightoutput = "Null"
-    
+
+
+    with open('linklist.json', 'w') as json_file:
+        data = link_list
+        json.dump(data, json_file,indent=4)
     
     
     result = [latencyoutput,latencytime,weightoutput,weighttime]
-    
-    
+
+
+    bwlinklist(g,link_list)
     return result
     # return [latencyoutput,latencytime,weightoutput,weighttime]
 
