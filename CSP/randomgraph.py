@@ -336,7 +336,7 @@ def nxgraphgenerator(nodes,p,max_latency,bwlimit):
 
 
 
-
+heur = nxgraphgenerator(30,0.1,1000,0)
 # try:
 #     heur = nxgraphgenerator(8,0.6,1000,20)
 #     print(heur)

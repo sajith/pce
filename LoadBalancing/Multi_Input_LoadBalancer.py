@@ -57,7 +57,7 @@ def bwlinklist(g,link_list):
     for u,v,w in g.edges(data=True):
         bwlinklist[u,v] = w["bandwidth"]
 
-    print(bwlinklist)
+
 
     bwlinkdict = []
     for pair in link_list:
@@ -72,7 +72,7 @@ def bwlinklist(g,link_list):
     with open('bwlinklist.json', 'w') as json_file:
         data = bwlinkdict
         json.dump(data, json_file, indent=4)
-    print(bwlinkdict)
+
     
     return bwlinkdict
     
@@ -96,9 +96,6 @@ def lhsbw(request_list, inputmatrix):
         for request in request_list:
             bwconstraints[i][i+count * len(inputmatrix[0])] = request[2]
             count += 1
-    print()
-    print(bwconstraints)
-    print()
     return bwconstraints
 
 def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,request_list,rhsbw):
@@ -109,7 +106,6 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
         rhs[request[1]] = 1   
         bounds += rhs
     bounds+=rhsbw
-    print(inputdistance)
 
     jsonoutput = {}
     flowconstraints = duplicatematrixmaker(request_list,inputmatrix)
@@ -119,10 +115,9 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
     cost = []
     for i in range(len(request_list)):
         cost += cost_list
-    
-    print("cost"+str(cost))
+
         
-    print(bounds)
+
     
     jsonoutput['constraint_coeffs'] = lhs
     jsonoutput['bounds'] = bounds
@@ -134,7 +129,7 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
     with open('LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
     
-def nxgraphgenerator(nodes,p,source_destintation_list, max_latency,bwlimit):
+def lbnxgraphgenerator(nodes,p,source_destintation_list, max_latency,bwlimit):
     # random.seed(1)
     g = erdos_renyi_graph(nodes,p)
     
@@ -250,11 +245,9 @@ def nxgraphgenerator(nodes,p,source_destintation_list, max_latency,bwlimit):
     jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency, source_destintation_list,rhsbw)
     print("link##: "+str(len(link_list)))
 
+    return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
+
     
-request_list = [[1,15,5], [2,19,3],[0,13,1]]
-nxgraphgenerator(40, 0.1,request_list, 999999, 5)
-
-
-
-
+# request_list = [[1,15,5], [2,19,3],[0,13,1]]
+# print(lbnxgraphgenerator(40, 0.1,request_list, 999999, 5))
 

@@ -12,9 +12,9 @@ from ortools.linear_solver import pywraplp
 import json
 
 
-def create_data_model():
-    with open('LB_data.json') as f:
-          graph = json.load(f)
+def create_data_model(graph):
+    # with open('LB_data.json') as f:
+    #       graph = json.load(f)
   
   
     data = {}
@@ -38,8 +38,8 @@ def split(list_a, chunk_size):
     yield list_a[i:i + chunk_size]
 
 
-def pathlookup(solution, linknum):
-    with open('LB_linklist.json') as f:
+def pathlookup(solution, linknum,linklist):
+    with open(linklist) as f:
         linklist = json.load(f)
     
     linkindex = []
@@ -61,8 +61,8 @@ def solutiontranslator(solution):
         c+=1
     return output
 
-def solution_translator(solution):
-    with open('LB_linklist.json') as f:
+def solution_translator(solution,linklistname):
+    with open(linklistname) as f:
         linklist = json.load(f)
     link_num = len(linklist)
     print("num"+str(link_num))
@@ -85,8 +85,8 @@ def solution_translator(solution):
     
     
 
-def LB_Solver():
-    graph = create_data_model()
+def LB_Solver(data):
+    graph = create_data_model(data)
     data = graph[0]
     num_inequality = graph[1]
     # Create the mip solver with the SCIP backend.
@@ -136,11 +136,13 @@ def LB_Solver():
     # print(solutionnum)
     
     
+# with open('LB_data.json') as f:
+#       data = json.load(f)
+# # file = "LB_data.json"
+# solution = LB_Solver(data)
+# print(solution)
 
-
-solution = LB_Solver()
-
-print(solution_translator(solution))
+# print(solution_translator(solution,'LB_linklist.json'))
 # solution_translator(solution)
 
 
