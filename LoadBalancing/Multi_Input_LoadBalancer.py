@@ -21,7 +21,7 @@ def zerolistmaker(n):
 
 def bwassign(g): ## pass in the bw name
     for (u,v,w) in g.edges(data=True):
-        w['bandwidth'] = random.randint(1,150)
+        w['bandwidth'] = random.randint(1,50)
 
 
  ## also for latency filter
@@ -129,7 +129,10 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
     with open('LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
     
-def lbnxgraphgenerator(nodes,p,source_destintation_list, max_latency,bwlimit):
+def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
+    with open('query.json') as f:
+        source_destination_list = json.load(f)
+    print("source_destination_list:"+str(source_destination_list))
     # random.seed(1)
     g = erdos_renyi_graph(nodes,p)
     
@@ -236,18 +239,21 @@ def lbnxgraphgenerator(nodes,p,source_destintation_list, max_latency,bwlimit):
     with open('LB_linklist.json', 'w') as json_file:
         data = link_list
         json.dump(data, json_file,indent=4)
+
+
+
     
     
     # result = [latencyoutput,latencytime,weightoutput,weighttime]
 
 
     rhsbw = bwlinklist(g,link_list)
-    jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency, source_destintation_list,rhsbw)
+    jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency, source_destination_list,rhsbw)
     print("link##: "+str(len(link_list)))
 
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
     
 # request_list = [[1,15,5], [2,19,3],[0,13,1]]
-# print(lbnxgraphgenerator(40, 0.1,request_list, 999999, 5))
+print(lbnxgraphgenerator(40, 0.1, 999999, 5))
 
