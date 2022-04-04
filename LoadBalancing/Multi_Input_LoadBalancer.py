@@ -69,7 +69,7 @@ def bwlinklist(g,link_list):
             bw = bwlinklist[(pair[1], pair[0])]
             bwlinkdict.append(bw)
     #
-    with open('bwlinklist.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/bwlinklist.json', 'w') as json_file:
         data = bwlinkdict
         json.dump(data, json_file, indent=4)
 
@@ -126,11 +126,11 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
     jsonoutput['num_constraints'] = len(lhs)
     jsonoutput['max_latency'] = max_latency
     jsonoutput['num_inequality'] = len(bwconstraints)
-    with open('LB_data.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
     
 def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
-    with open('query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
         source_destination_list = json.load(f)
     print("source_destination_list:"+str(source_destination_list))
     # random.seed(1)
@@ -235,8 +235,7 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
 
     # Draw the graph according to node positions
     labels = nx.get_edge_attributes(g,'bandwidth')
-
-    with open('LB_linklist.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json', 'w') as json_file:
         data = link_list
         json.dump(data, json_file,indent=4)
 

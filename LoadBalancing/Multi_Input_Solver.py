@@ -91,7 +91,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
           query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -165,13 +165,13 @@ def LB_Solver(data):
     # print(solutionnum)
     
     
-with open('LB_data.json') as f:
+with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
       data = json.load(f)
 # file = "Test_LB_data.json"
 solution = LB_Solver(data)
 print(solution)
 
-print(solution_translator(solution,'LB_linklist.json'))
+print(solution_translator(solution,'/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'))
 
 
 
