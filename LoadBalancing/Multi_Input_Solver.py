@@ -12,9 +12,9 @@ from ortools.linear_solver import pywraplp
 import json
 
 
-def create_data_model():
-    with open('LB_data.json') as f:
-          graph = json.load(f)
+def create_data_model(graph):
+    # with open('Test_LB_data.json') as f:
+    #       graph = json.load(f)
   
   
     data = {}
@@ -38,8 +38,8 @@ def split(list_a, chunk_size):
     yield list_a[i:i + chunk_size]
 
 
-def pathlookup(solution, linknum):
-    with open('LB_linklist.json') as f:
+def pathlookup(solution, linknum,linklist):
+    with open(linklist) as f:
         linklist = json.load(f)
     
     linkindex = []
@@ -61,8 +61,8 @@ def solutiontranslator(solution):
         c+=1
     return output
 
-def solution_translator(solution):
-    with open('LB_linklist.json') as f:
+def solution_translator(solution,linklistname):
+    with open(linklistname) as f:
         linklist = json.load(f)
     link_num = len(linklist)
     print("num"+str(link_num))
@@ -81,12 +81,41 @@ def solution_translator(solution):
                                 
         path_list[c] = individual_solution
         c+=1
-    return path_list
-    
-    
+    ordered_path_list = pathordering(path_list)
+    return ordered_path_list
 
-def LB_Solver():
-    graph = create_data_model()
+
+
+
+def pathordering(path_list):
+    ordered_path_list = {}
+    source_list = []
+    c = 0
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+          query_list = json.load(f)
+    for query in query_list:
+        source_list.append(query[0])
+
+    for query in path_list:
+        source_node = source_list[c]
+        ordered_path_list[query] = []
+        while len(path_list[query]) != 0:
+            for path in path_list[query]:
+                if path[0] == source_node:
+                    ordered_path_list[query].append(path)
+                    source_node = path[1]
+                    path_list[query].remove(path)
+        c+=1
+    return ordered_path_list
+
+
+#
+# path_list = {1: [[1, 27], [7, 15], [27, 7]], 2: [[2, 20], [20, 19]], 3: [[0, 32], [27, 30], [32, 27]]}
+# print(pathordering(path_list))
+
+
+def LB_Solver(data):
+    graph = create_data_model(data)
     data = graph[0]
     num_inequality = graph[1]
     # Create the mip solver with the SCIP backend.
@@ -136,11 +165,13 @@ def LB_Solver():
     # print(solutionnum)
     
     
+with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
+      data = json.load(f)
+# file = "Test_LB_data.json"
+solution = LB_Solver(data)
+print(solution)
 
+print(solution_translator(solution,'/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'))
 
-solution = LB_Solver()
-
-print(solution_translator(solution))
-# solution_translator(solution)
 
 

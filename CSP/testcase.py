@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import json
 
 def filesave(file):
-    with open('graphdata2.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/graphdata2.json', 'w') as json_file:
         json.dump(file, json_file,indent=4)
         
     
@@ -112,7 +112,7 @@ def draw_errorplotweightplot(nodes,heuravglist_latency,heurstd_latency, heuravgl
     plt.show()
     
 def graphgenerator(): 
-    with open('graphdata2.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/graphdata2.json') as f:
           file = json.load(f)
     solvertimelist = file["solvertimelist"]   
     heurtimelist_latency = file["heurtimelist_latency"]
