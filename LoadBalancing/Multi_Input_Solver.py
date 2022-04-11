@@ -91,7 +91,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
           query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -118,6 +118,8 @@ def LB_Solver(data):
     graph = create_data_model(data)
     data = graph[0]
     num_inequality = graph[1]
+    print(num_inequality)
+    print(data['num_constraints']-num_inequality)
     # Create the mip solver with the SCIP backend.
     solver = pywraplp.Solver.CreateSolver('SCIP')
 
@@ -175,3 +177,5 @@ print(solution_translator(solution,'/Users/yifeiwang/Desktop/test214/pce/test/da
 
 
 
+# {1: [[1, 10], [10, 5]], 2: [[2, 28], [28, 19]], 3: [[3, 20]]}
+# {1: [[1, 10], [10, 21], [21, 5]], 2: [[2, 10], [10, 25], [25, 19]], 3: [[3, 20]]}

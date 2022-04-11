@@ -12,7 +12,7 @@ import json
 
 
 def create_data_model(graph):
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
           query_list = json.load(f)
     commodity_query_list = []
     for query in query_list:
@@ -105,7 +105,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
         query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
