@@ -177,5 +177,3 @@ print(solution_translator(solution,'/Users/yifeiwang/Desktop/test214/pce/test/da
 
 
 
-# {1: [[1, 10], [10, 5]], 2: [[2, 28], [28, 19]], 3: [[3, 20]]}
-# {1: [[1, 10], [10, 21], [21, 5]], 2: [[2, 10], [10, 25], [25, 19]], 3: [[3, 20]]}

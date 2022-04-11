@@ -176,5 +176,3 @@ solution = LB_Solver(data)
 print(solution)
 
 print(solution_translator(solution, '/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'))
-# {1: [[1, 17], [8, 15], [17, 8]], 2: [[2, 22], [6, 19], [8, 6], [22, 8]], 3: [[0, 28], [28, 33], [33, 13]]}
-
