@@ -4,7 +4,9 @@
 Most of the completed functions are located in the /LoadBalancing. It can solver CSP and Multi-commodities problem.
 
 Multi_Input_LoadBalancer is used to generated topology of the network.
+
 Multi_Input_Solver will generate the optimal solution based on minimizing the total cost.
+
 LB_Utilization_Solver will generate the optimal solution based on minimizing the total link capacity utilization.
 
 Connection.json is used as the query list and  located in the /test/data.
