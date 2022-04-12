@@ -21,7 +21,7 @@ def create_data_model(graph):
           bwlist = json.load(f)
     obj_coeffs = []
     for bw in commodity_query_list:
-        obj_coeffs+=[link/bw for link in bwlist]
+        obj_coeffs+=[bw/link for link in bwlist]
 
 
 
