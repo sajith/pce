@@ -43,10 +43,12 @@ def weightassign(g):
     for (u,v,w) in g.edges(data=True):
         w['weight'] = random.randint(1,2**24) #10-10^9
         
-        latency = random.randint(10,100) #10,100 1/100 msec
+        latency = random.randint(1,10) #10,100 1/100 msec
         w['latency'] =latency
         distance_list.append(w['weight']) 
-        latency_list.append(latency) 
+        latency_list.append(latency)
+
+
     return[distance_list,latency_list]
 
 def nodes_connected(g, u, v):
@@ -98,7 +100,8 @@ def lhsbw(request_list, inputmatrix):
             count += 1
     return bwconstraints
 
-def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,request_list,rhsbw):
+
+def jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency,request_list,rhsbw):
     bounds = []
     for request in request_list:
         rhs = zerolistmaker(nodes)
@@ -116,7 +119,10 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
     for i in range(len(request_list)):
         cost += cost_list
 
-        
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/latconstraint.json') as f:
+        latconstraint = json.load(f)
+    lhs+=latconstraint['lhs']
+    bounds+=latconstraint['rhs']
 
     
     jsonoutput['constraint_coeffs'] = lhs
@@ -125,12 +131,38 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency,requ
     jsonoutput['num_vars'] = len(cost)
     jsonoutput['num_constraints'] = len(lhs)
     jsonoutput['max_latency'] = max_latency
-    jsonoutput['num_inequality'] = len(bwconstraints)
+    jsonoutput['num_inequality'] = len(bwconstraints)+len(latconstraint)+1
     with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
+
+
+def latconstraintmaker(request_list, latency_list):
+    lhs = []
+    rhs = []
+    zerolist = zerolistmaker(len(latency_list))
+    print(zerolist)
+    requestnum = len(request_list)
+    for i in range(requestnum):
+        print(i)
+        constraint = []
+        constraint = i * zerolist + latency_list + (requestnum - 1 - i) * zerolist
+        lhs.append(constraint)
+
+        print()
+
+    for request in request_list:
+        rhs.append(request[3])
+
+    latdata = {}
+    latdata["lhs"] = lhs
+    latdata["rhs"] = rhs
+
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/latconstraint.json', 'w') as json_file:
+        data = latdata
+        json.dump(data, json_file, indent=4)
     
 def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
         source_destination_list = json.load(f)
     print("source_destination_list:"+str(source_destination_list))
     # random.seed(1)
@@ -209,6 +241,7 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
     distance_list = weightassignment[0]
     latency_list = weightassignment[1]
 
+
     
     ## look up and form the distance and latency array for each link
     count = 0
@@ -227,10 +260,15 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
             count = count+1
         except ValueError:
             inputlatency[count] = latency_list[edgelist.index((link[1],link[0]))]
+            count+=1
 
     pos = nx.spring_layout(g)
     
     print()
+    print(inputdistance)
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/latency_list.json', 'w') as json_file:
+        data = inputlatency
+        json.dump(data, json_file, indent=4)
     
 
     # Draw the graph according to node positions
@@ -247,12 +285,18 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
 
 
     rhsbw = bwlinklist(g,link_list)
-    jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency, source_destination_list,rhsbw)
+
+    with open("/Users/yifeiwang/Desktop/test214/pce/test/data/latency_list.json") as f:
+        latency_list = json.load(f)
+    latconstraintmaker(source_destination_list, latency_list)
+    jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency, source_destination_list,rhsbw)
     print("link##: "+str(len(link_list)))
+    print(source_destination_list)
+
 
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
     
 # request_list = [[1,15,5], [2,19,3],[0,13,1]]
-print(lbnxgraphgenerator(40, 0.1, 999999, 5))
+print(lbnxgraphgenerator(30, 0.3, 999999, 5))
 

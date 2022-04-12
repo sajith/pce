@@ -12,7 +12,7 @@ import json
 
 
 def create_data_model(graph):
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
           query_list = json.load(f)
     commodity_query_list = []
     for query in query_list:
@@ -21,7 +21,7 @@ def create_data_model(graph):
           bwlist = json.load(f)
     obj_coeffs = []
     for bw in commodity_query_list:
-        obj_coeffs+=[link/bw for link in bwlist]
+        obj_coeffs+=[bw/link for link in bwlist]
 
 
 
@@ -105,7 +105,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/query.json') as f:
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
         query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -176,5 +176,3 @@ solution = LB_Solver(data)
 print(solution)
 
 print(solution_translator(solution, '/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'))
-# {1: [[1, 17], [8, 15], [17, 8]], 2: [[2, 22], [6, 19], [8, 6], [22, 8]], 3: [[0, 28], [28, 33], [33, 13]]}
-
