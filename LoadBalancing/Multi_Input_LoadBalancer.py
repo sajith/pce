@@ -21,20 +21,20 @@ def zerolistmaker(n):
 
 def bwassign(g): ## pass in the bw name
     for (u,v,w) in g.edges(data=True):
-        w['bandwidth'] = random.randint(1,50)
+        w['bandwidth'] = random.randint(2000,3000)
 
 
  ## also for latency filter
-def bwfilter(g,bwlimit): ## remove paths that does not satisfy the bw requirement and display paths that has been removed
-    path_remove = []
-    path_remove_withbw = []
-    for (u,v,w) in g.edges(data=True):
-        if w['bandwidth'] < bwlimit:
-            path_remove.append((u,v))
-            path_remove_withbw.append((u,v,w))
-    g.remove_edges_from(path_remove)
-    print("remove path:" + str(path_remove_withbw))
-    return g
+# def bwfilter(g,bwlimit): ## remove paths that does not satisfy the bw requirement and display paths that has been removed
+#     path_remove = []
+#     path_remove_withbw = []
+#     for (u,v,w) in g.edges(data=True):
+#         if w['bandwidth'] < bwlimit:
+#             path_remove.append((u,v))
+#             path_remove_withbw.append((u,v,w))
+#     g.remove_edges_from(path_remove)
+#     print("remove path:" + str(path_remove_withbw))
+#     return g
     
         
 def weightassign(g):
@@ -101,18 +101,23 @@ def lhsbw(request_list, inputmatrix):
     return bwconstraints
 
 
-def jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency,request_list,rhsbw):
+def jsonfilemaker(nodes, inputmatrix, inputdistance,request_list,rhsbw, linknum):
     bounds = []
     for request in request_list:
         rhs = zerolistmaker(nodes)
         rhs[request[0]] = -1
         rhs[request[1]] = 1   
         bounds += rhs
+
+    ## add the bwconstraint rhs
     bounds+=rhsbw
 
     jsonoutput = {}
     flowconstraints = duplicatematrixmaker(request_list,inputmatrix)
     bwconstraints = lhsbw(request_list, inputmatrix)
+    # print()
+    # print("bwcon"+str(bwconstraints))
+    # print()
     lhs = flowconstraints + bwconstraints
     cost_list = copy.deepcopy(inputdistance)
     cost = []
@@ -124,14 +129,13 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency,request_list,rh
     lhs+=latconstraint['lhs']
     bounds+=latconstraint['rhs']
 
-    
     jsonoutput['constraint_coeffs'] = lhs
     jsonoutput['bounds'] = bounds
     jsonoutput['obj_coeffs'] = cost
     jsonoutput['num_vars'] = len(cost)
-    jsonoutput['num_constraints'] = len(lhs)
-    jsonoutput['max_latency'] = max_latency
-    jsonoutput['num_inequality'] = len(bwconstraints)+len(latconstraint)+1
+    jsonoutput['num_constraints'] = len(bounds)
+    jsonoutput['num_inequality'] = linknum + int(len(request_list))
+
     with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
 
@@ -161,7 +165,7 @@ def latconstraintmaker(request_list, latency_list):
         data = latdata
         json.dump(data, json_file, indent=4)
     
-def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
+def lbnxgraphgenerator(nodes,p, bwlimit):
     with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
         source_destination_list = json.load(f)
     print("source_destination_list:"+str(source_destination_list))
@@ -174,7 +178,7 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
         else:
             g = erdos_renyi_graph(nodes,p)
     bwassign(g)
-    bwfilter(g, bwlimit)
+    # bwfilter(g, bwlimit)
 
 
 
@@ -289,7 +293,8 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
     with open("/Users/yifeiwang/Desktop/test214/pce/test/data/latency_list.json") as f:
         latency_list = json.load(f)
     latconstraintmaker(source_destination_list, latency_list)
-    jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency, source_destination_list,rhsbw)
+    linknum = len(link_list)
+    jsonfilemaker(nodes, inputmatrix, inputdistance, source_destination_list,rhsbw, linknum)
     print("link##: "+str(len(link_list)))
     print(source_destination_list)
 
@@ -298,5 +303,5 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
 
     
 # request_list = [[1,15,5], [2,19,3],[0,13,1]]
-print(lbnxgraphgenerator(30, 0.3, 999999, 5))
+print(lbnxgraphgenerator(25, 0.4, 99999))
 

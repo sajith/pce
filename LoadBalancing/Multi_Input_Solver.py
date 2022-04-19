@@ -13,18 +13,10 @@ import json
 
 
 def create_data_model(graph):
-    # with open('Test_LB_data.json') as f:
-    #       graph = json.load(f)
-  
-  
     data = {}
     data['constraint_coeffs'] = graph['constraint_coeffs']
-    # max_latency = graph["max_latency"]
 
     data['bounds'] = graph['bounds']
-    # data['bounds'].append(int(max_latency)) # append the user input min_latency to the RHS of the last constraint
-
-
 
     data['obj_coeffs'] = graph['obj_coeffs']
     data['num_vars'] = graph["num_vars"]
@@ -109,9 +101,6 @@ def pathordering(path_list):
     return ordered_path_list
 
 
-#
-# path_list = {1: [[1, 27], [7, 15], [27, 7]], 2: [[2, 20], [20, 19]], 3: [[0, 32], [27, 30], [32, 27]]}
-# print(pathordering(path_list))
 
 
 def LB_Solver(data):
@@ -160,11 +149,7 @@ def LB_Solver(data):
         print('The problem does not have an optimal solution.')
     
     return solution
-    # print(solution)
-    # linkselection = pathlookup(solution, num_inequality)
-    # solutionnum = solutiontranslator(solution)
-    # print(linkselection)
-    # print(solutionnum)
+
     
     
 with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
