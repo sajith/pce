@@ -165,7 +165,7 @@ def latconstraintmaker(request_list, latency_list):
         data = latdata
         json.dump(data, json_file, indent=4)
     
-def lbnxgraphgenerator(nodes,p, bwlimit):
+def lbnxgraphgenerator(nodes,p):
     with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
         source_destination_list = json.load(f)
     print("source_destination_list:"+str(source_destination_list))
@@ -303,5 +303,5 @@ def lbnxgraphgenerator(nodes,p, bwlimit):
 
     
 # request_list = [[1,15,5], [2,19,3],[0,13,1]]
-print(lbnxgraphgenerator(25, 0.4, 99999))
+print(lbnxgraphgenerator(25, 0.4))
 

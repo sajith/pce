@@ -1,5 +1,5 @@
 import unittest
-from LoadBalancing.Multi_Input_LoadBalancer import lbnxgraphgenerator
+from LoadBalancing.RandomTopologyGenerator import lbnxgraphgenerator
 
 class Test_random_graph_generator(unittest.TestCase):
 

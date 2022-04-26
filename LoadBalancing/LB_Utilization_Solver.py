@@ -166,13 +166,17 @@ def LB_Solver(data):
     else:
         print('The problem does not have an optimal solution.')
 
-    return solution
+    return solution, solver.Objective().Value()
+
+def runLB_UT_Solver():
+    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
+        data = json.load(f)
+
+    output = LB_Solver(data)
+    solution = output[0]
+    objective =output[1]
 
 
-with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
-    data = json.load(f)
-# file = "Test_LB_data.json"
-solution = LB_Solver(data)
-print(solution)
+    return solution_translator(solution, '/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'), objective
 
-print(solution_translator(solution, '/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'))
+print(runLB_UT_Solver())
