@@ -179,4 +179,4 @@ def runLB_UT_Solver():
 
     return solution_translator(solution, '/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json'), objective
 
-print(runLB_UT_Solver())
+# print(runLB_UT_Solver())

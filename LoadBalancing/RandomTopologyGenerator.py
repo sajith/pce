@@ -22,20 +22,6 @@ def zerolistmaker(n):
 def bwassign(g): ## pass in the bw name
     for (u,v,w) in g.edges(data=True):
         w['bandwidth'] = random.randint(2000,3000)
-
-
- ## also for latency filter
-# def bwfilter(g,bwlimit): ## remove paths that does not satisfy the bw requirement and display paths that has been removed
-#     path_remove = []
-#     path_remove_withbw = []
-#     for (u,v,w) in g.edges(data=True):
-#         if w['bandwidth'] < bwlimit:
-#             path_remove.append((u,v))
-#             path_remove_withbw.append((u,v,w))
-#     g.remove_edges_from(path_remove)
-#     print("remove path:" + str(path_remove_withbw))
-#     return g
-    
         
 def weightassign(g):
     distance_list = []
@@ -281,13 +267,6 @@ def lbnxgraphgenerator(nodes,p):
         data = link_list
         json.dump(data, json_file,indent=4)
 
-
-
-    
-    
-    # result = [latencyoutput,latencytime,weightoutput,weighttime]
-
-
     rhsbw = bwlinklist(g,link_list)
 
     with open("/Users/yifeiwang/Desktop/5.3code/pce/test/data/latency_list.json") as f:
@@ -302,6 +281,6 @@ def lbnxgraphgenerator(nodes,p):
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
     
-# request_list = [[1,15,5], [2,19,3],[0,13,1]]
+
 print(lbnxgraphgenerator(25, 0.4))
 
