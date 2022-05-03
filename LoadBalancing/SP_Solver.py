@@ -83,7 +83,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
           query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -152,7 +152,7 @@ def LB_Solver(data):
 
     
 def runSP_Solver():
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json') as f:
           data = json.load(f)
 
 
@@ -161,7 +161,7 @@ def runSP_Solver():
     objective =output[1]
 
 
-    return solution_translator(solution,'/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'), objective
+    return solution_translator(solution,'/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json'), objective
 
 
 print(runSP_Solver())

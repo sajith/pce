@@ -11,10 +11,10 @@ def RandomConnectionGenerator(nodes, querynum, bw, latencylimit):
         query.append(np.random.randint(latencylimit, latencylimit+latencylimit/2))
         connection.append(query)
 
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json', 'w') as json_file:
         data = connection
         json.dump(data, json_file, indent=4)
 
 
 
-RandomConnectionGenerator(20,10,10,1000)
+RandomConnectionGenerator(20,32,100,1000)
