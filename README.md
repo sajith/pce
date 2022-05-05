@@ -42,6 +42,7 @@ In this project, links are set to be binary variables which means if a link is s
 
 
 
+
 ## Constrained Shortest Path (CSP)
 
 Randomgraph is used to generate the topology of a network. Each link in the network will have three attributes: cost, latency and bandwidth.
@@ -50,7 +51,7 @@ Topology will be generated in .json file. Other link info files will aslo be gen
 
 - nodes: Number of nodes in the graph
 - p: Probability of link creation
-- max_latency: Used for testing the heuristic sorting method. Can be set to 99999 for regular toplogy.
+- max_latency: Used for testing the heuristic sorting method. Can be set to 99999 for regular topology.
 - bwlimit: Remove any link that is lower than this bwlimit. There is connectivity check before the final creation of the topology, new topology will be created if the current one is not connected.
 
 Formualtion:
