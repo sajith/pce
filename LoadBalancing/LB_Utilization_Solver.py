@@ -12,12 +12,12 @@ import json
 
 
 def create_data_model(graph):
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
           query_list = json.load(f)
     commodity_query_list = []
     for query in query_list:
         commodity_query_list.append(query[2])
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/bwlinklist.json') as f:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/bwlinklist.json') as f:
           bwlist = json.load(f)
     obj_coeffs = []
     for bw in commodity_query_list:
@@ -105,7 +105,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
         query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -166,13 +166,17 @@ def LB_Solver(data):
     else:
         print('The problem does not have an optimal solution.')
 
-    return solution
+    return solution, solver.Objective().Value()
+
+def runLB_UT_Solver():
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json') as f:
+        data = json.load(f)
+
+    output = LB_Solver(data)
+    solution = output[0]
+    objective =output[1]
 
 
-with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json') as f:
-    data = json.load(f)
-# file = "Test_LB_data.json"
-solution = LB_Solver(data)
-print(solution)
+    return solution_translator(solution, '/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json'), objective
 
-print(solution_translator(solution, '/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json'))
+# print(runLB_UT_Solver())

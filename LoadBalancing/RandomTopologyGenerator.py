@@ -21,21 +21,7 @@ def zerolistmaker(n):
 
 def bwassign(g): ## pass in the bw name
     for (u,v,w) in g.edges(data=True):
-        w['bandwidth'] = random.randint(1,50)
-
-
- ## also for latency filter
-def bwfilter(g,bwlimit): ## remove paths that does not satisfy the bw requirement and display paths that has been removed
-    path_remove = []
-    path_remove_withbw = []
-    for (u,v,w) in g.edges(data=True):
-        if w['bandwidth'] < bwlimit:
-            path_remove.append((u,v))
-            path_remove_withbw.append((u,v,w))
-    g.remove_edges_from(path_remove)
-    print("remove path:" + str(path_remove_withbw))
-    return g
-    
+        w['bandwidth'] = random.randint(2000,3000)
         
 def weightassign(g):
     distance_list = []
@@ -71,7 +57,7 @@ def bwlinklist(g,link_list):
             bw = bwlinklist[(pair[1], pair[0])]
             bwlinkdict.append(bw)
     #
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/bwlinklist.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/bwlinklist.json', 'w') as json_file:
         data = bwlinkdict
         json.dump(data, json_file, indent=4)
 
@@ -101,38 +87,42 @@ def lhsbw(request_list, inputmatrix):
     return bwconstraints
 
 
-def jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency,request_list,rhsbw):
+def jsonfilemaker(nodes, inputmatrix, inputdistance,request_list,rhsbw, linknum):
     bounds = []
     for request in request_list:
         rhs = zerolistmaker(nodes)
         rhs[request[0]] = -1
         rhs[request[1]] = 1   
         bounds += rhs
+
+    ## add the bwconstraint rhs
     bounds+=rhsbw
 
     jsonoutput = {}
     flowconstraints = duplicatematrixmaker(request_list,inputmatrix)
     bwconstraints = lhsbw(request_list, inputmatrix)
+    # print()
+    # print("bwcon"+str(bwconstraints))
+    # print()
     lhs = flowconstraints + bwconstraints
     cost_list = copy.deepcopy(inputdistance)
     cost = []
     for i in range(len(request_list)):
         cost += cost_list
 
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/latconstraint.json') as f:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/latconstraint.json') as f:
         latconstraint = json.load(f)
     lhs+=latconstraint['lhs']
     bounds+=latconstraint['rhs']
 
-    
     jsonoutput['constraint_coeffs'] = lhs
     jsonoutput['bounds'] = bounds
     jsonoutput['obj_coeffs'] = cost
     jsonoutput['num_vars'] = len(cost)
-    jsonoutput['num_constraints'] = len(lhs)
-    jsonoutput['max_latency'] = max_latency
-    jsonoutput['num_inequality'] = len(bwconstraints)+len(latconstraint)+1
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_data.json', 'w') as json_file:
+    jsonoutput['num_constraints'] = len(bounds)
+    jsonoutput['num_inequality'] = linknum + int(len(request_list))
+
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
 
 
@@ -157,12 +147,12 @@ def latconstraintmaker(request_list, latency_list):
     latdata["lhs"] = lhs
     latdata["rhs"] = rhs
 
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/latconstraint.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/latconstraint.json', 'w') as json_file:
         data = latdata
         json.dump(data, json_file, indent=4)
     
-def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/connection.json') as f:
+def lbnxgraphgenerator(nodes,p):
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
         source_destination_list = json.load(f)
     print("source_destination_list:"+str(source_destination_list))
     # random.seed(1)
@@ -174,7 +164,7 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
         else:
             g = erdos_renyi_graph(nodes,p)
     bwassign(g)
-    bwfilter(g, bwlimit)
+    # bwfilter(g, bwlimit)
 
 
 
@@ -266,30 +256,24 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
     
     print()
     print(inputdistance)
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/latency_list.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/latency_list.json', 'w') as json_file:
         data = inputlatency
         json.dump(data, json_file, indent=4)
     
 
     # Draw the graph according to node positions
     labels = nx.get_edge_attributes(g,'bandwidth')
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/LB_linklist.json', 'w') as json_file:
+    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json', 'w') as json_file:
         data = link_list
         json.dump(data, json_file,indent=4)
 
-
-
-    
-    
-    # result = [latencyoutput,latencytime,weightoutput,weighttime]
-
-
     rhsbw = bwlinklist(g,link_list)
 
-    with open("/Users/yifeiwang/Desktop/test214/pce/test/data/latency_list.json") as f:
+    with open("/Users/yifeiwang/Desktop/5.3code/pce/test/data/latency_list.json") as f:
         latency_list = json.load(f)
     latconstraintmaker(source_destination_list, latency_list)
-    jsonfilemaker(nodes, inputmatrix, inputdistance, max_latency, source_destination_list,rhsbw)
+    linknum = len(link_list)
+    jsonfilemaker(nodes, inputmatrix, inputdistance, source_destination_list,rhsbw, linknum)
     print("link##: "+str(len(link_list)))
     print(source_destination_list)
 
@@ -297,6 +281,6 @@ def lbnxgraphgenerator(nodes,p, max_latency,bwlimit):
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
     
-# request_list = [[1,15,5], [2,19,3],[0,13,1]]
-print(lbnxgraphgenerator(30, 0.3, 999999, 5))
+
+print(lbnxgraphgenerator(25, 0.4))
 

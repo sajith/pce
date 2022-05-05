@@ -1,11 +1,11 @@
 import unittest
-from LoadBalancing.Multi_Input_LoadBalancer import lbnxgraphgenerator
+from LoadBalancing.RandomTopologyGenerator import lbnxgraphgenerator
 
 class Test_random_graph_generator(unittest.TestCase):
 
     def test_Computation(self):
 
-        result = lbnxgraphgenerator(40, 0.1, 999999, 5)
+        result = lbnxgraphgenerator(40, 0.1, 999999)
         print(result)
         return True
 
