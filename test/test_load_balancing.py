@@ -1,6 +1,6 @@
 import unittest
 import json
-from LoadBalancing.SP_Solver import LB_Solver
+from LoadBalancing.MC_Solver import LB_Solver
 
 class Test_Load_Balancing_Solver(unittest.TestCase):
     def setUp(self):
