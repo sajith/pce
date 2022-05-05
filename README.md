@@ -7,7 +7,7 @@ For example, `[1,10,15,20]` means this connection query is to route traffic from
 
 For testing, a random connection generator is located at `Utility/RandomConnectionGen.py`. It can randomly generate one or multiple queries in one connection.json.
 
-### Topology Generation
+### Connection Generation
 Random connection generator is located at Utility/RandomConnectionGen.py. 
 ```
 RandomConnectionGenerator(nodes, querynum, bw, latencylimit)
