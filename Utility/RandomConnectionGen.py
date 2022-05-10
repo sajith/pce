@@ -17,4 +17,4 @@ def RandomConnectionGenerator(nodes, querynum, bw, latencylimit):
 
 
 
-RandomConnectionGenerator(20,32,100,1000)
+RandomConnectionGenerator(20,3,100,1000)

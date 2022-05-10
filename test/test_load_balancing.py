@@ -1,6 +1,6 @@
 import unittest
 import json
-from LoadBalancing.MC_Solver import LB_Solver
+from LoadBalancing.MC_Solver import MC_Solver
 
 class Test_Load_Balancing_Solver(unittest.TestCase):
     def setUp(self):
@@ -13,7 +13,7 @@ class Test_Load_Balancing_Solver(unittest.TestCase):
 
     def test_Computation(self):
 
-        result = LB_Solver(self.data)
+        result = MC_Solver(self.data)[0]
 
         self.assertEqual(self.solution, result)
 
