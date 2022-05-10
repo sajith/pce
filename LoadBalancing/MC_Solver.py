@@ -103,7 +103,7 @@ def pathordering(path_list):
 
 
 
-def LB_Solver(data):
+def MC_Solver(data):
     graph = create_data_model(data)
     data = graph[0]
     num_inequality = graph[1]
@@ -151,12 +151,12 @@ def LB_Solver(data):
     return solution, solver.Objective().Value()
 
     
-def runSP_Solver():
+def runMC_Solver():
     with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json') as f:
           data = json.load(f)
 
 
-    output = LB_Solver(data)
+    output = MC_Solver(data)
     solution = output[0]
     objective =output[1]
 
@@ -164,4 +164,4 @@ def runSP_Solver():
     return solution_translator(solution,'/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json'), objective
 
 
-# print(runSP_Solver())
+print(runMC_Solver())
