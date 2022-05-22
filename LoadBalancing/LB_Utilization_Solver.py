@@ -12,12 +12,12 @@ import json
 
 
 def create_data_model(graph):
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
+    with open('../test/data/connection.json') as f:
           query_list = json.load(f)
     commodity_query_list = []
     for query in query_list:
         commodity_query_list.append(query[2])
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/bwlinklist.json') as f:
+    with open('../test/data/bwlinklist.json') as f:
           bwlist = json.load(f)
     obj_coeffs = []
     for bw in commodity_query_list:
@@ -37,7 +37,7 @@ def create_data_model(graph):
 
     # data['obj_coeffs'] = graph['obj_coeffs']
     data['obj_coeffs'] = obj_coeffs
-    print("len"+str(len(data["obj_coeffs"])))
+
     data['num_vars'] = graph["num_vars"]
     data['num_constraints'] = graph['num_constraints']
 
@@ -81,7 +81,7 @@ def solution_translator(solution, linklistname):
     with open(linklistname) as f:
         linklist = json.load(f)
     link_num = len(linklist)
-    print("num" + str(link_num))
+
     solution_list = list(split(solution, link_num))
     path_list = {}
     c = 1
@@ -91,7 +91,7 @@ def solution_translator(solution, linklistname):
 
         for solution in request:
             if abs(solution - 1) < 0.01:
-                print(i)
+
                 individual_solution.append(linklist[i])
             i += 1
 
@@ -105,7 +105,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
+    with open('../test/data/connection.json') as f:
         query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -157,19 +157,19 @@ def LB_Solver(data):
     if status == pywraplp.Solver.OPTIMAL:
         print('Objective value =', solver.Objective().Value())
         for j in range(data['num_vars']):
-            print(x[j].name(), ' = ', x[j].solution_value())
+            # print(x[j].name(), ' = ', x[j].solution_value())
             solution.append(x[j].solution_value())
         print()
-        print('Problem solved in %f milliseconds' % solver.wall_time())
-        print('Problem solved in %d iterations' % solver.iterations())
-        print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
+        # print('Problem solved in %f milliseconds' % solver.wall_time())
+        # print('Problem solved in %d iterations' % solver.iterations())
+        # print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
     else:
         print('The problem does not have an optimal solution.')
 
     return solution, solver.Objective().Value()
 
 def runLB_UT_Solver():
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json') as f:
+    with open('../test/data/LB_data.json') as f:
         data = json.load(f)
 
     output = LB_Solver(data)
@@ -177,6 +177,6 @@ def runLB_UT_Solver():
     objective =output[1]
 
 
-    return solution_translator(solution, '/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json'), objective
+    return solution_translator(solution, '../test/data/LB_linklist.json'), objective
 
 print(runLB_UT_Solver())

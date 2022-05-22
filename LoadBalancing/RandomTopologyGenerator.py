@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+    #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Tue Mar  8 13:34:06 2022
@@ -18,7 +18,7 @@ def zerolistmaker(n):
     listofzeros = [0] * n
     return listofzeros
 
-
+# use global variable to represent bw
 def bwassign(g): ## pass in the bw name
     for (u,v,w) in g.edges(data=True):
         w['bandwidth'] = random.randint(2000,3000)
@@ -57,7 +57,7 @@ def bwlinklist(g,link_list):
             bw = bwlinklist[(pair[1], pair[0])]
             bwlinkdict.append(bw)
     #
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/bwlinklist.json', 'w') as json_file:
+    with open('../test/data/bwlinklist.json', 'w') as json_file:
         data = bwlinkdict
         json.dump(data, json_file, indent=4)
 
@@ -66,7 +66,7 @@ def bwlinklist(g,link_list):
     
 
 def duplicatematrixmaker(request_list,inputmatrix):
-    print(len(inputmatrix))
+
     zeros = zerolistmaker(len(inputmatrix[0]))
     outputmatrix = []
     for i in range(len(request_list)):
@@ -101,16 +101,14 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance,request_list,rhsbw, linknum)
     jsonoutput = {}
     flowconstraints = duplicatematrixmaker(request_list,inputmatrix)
     bwconstraints = lhsbw(request_list, inputmatrix)
-    # print()
-    # print("bwcon"+str(bwconstraints))
-    # print()
+
     lhs = flowconstraints + bwconstraints
     cost_list = copy.deepcopy(inputdistance)
     cost = []
     for i in range(len(request_list)):
         cost += cost_list
 
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/latconstraint.json') as f:
+    with open('../test/data/latconstraint.json') as f:
         latconstraint = json.load(f)
     lhs+=latconstraint['lhs']
     bounds+=latconstraint['rhs']
@@ -122,7 +120,7 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance,request_list,rhsbw, linknum)
     jsonoutput['num_constraints'] = len(bounds)
     jsonoutput['num_inequality'] = linknum + int(len(request_list))
 
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json', 'w') as json_file:
+    with open('../test/data/LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
 
 
@@ -130,15 +128,15 @@ def latconstraintmaker(request_list, latency_list):
     lhs = []
     rhs = []
     zerolist = zerolistmaker(len(latency_list))
-    print(zerolist)
+
     requestnum = len(request_list)
     for i in range(requestnum):
-        print(i)
+
         constraint = []
         constraint = i * zerolist + latency_list + (requestnum - 1 - i) * zerolist
         lhs.append(constraint)
 
-        print()
+
 
     for request in request_list:
         rhs.append(request[3])
@@ -147,15 +145,21 @@ def latconstraintmaker(request_list, latency_list):
     latdata["lhs"] = lhs
     latdata["rhs"] = rhs
 
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/latconstraint.json', 'w') as json_file:
+    with open('../test/data/latconstraint.json', 'w') as json_file:
         data = latdata
         json.dump(data, json_file, indent=4)
-    
+
+# inputs
+# nodes: Total number of the random network's nodes
+# p: link creation probability
+
 def lbnxgraphgenerator(nodes,p):
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
+    # 1st read in connection request
+    with open('../test/data/connection.json') as f:
         source_destination_list = json.load(f)
-    print("source_destination_list:"+str(source_destination_list))
+
     # random.seed(1)
+    # 2nd g is the input topology in NetworkX
     g = erdos_renyi_graph(nodes,p)
     
     while True:
@@ -163,16 +167,17 @@ def lbnxgraphgenerator(nodes,p):
             break
         else:
             g = erdos_renyi_graph(nodes,p)
+
+    # only used for random graph generation to assign bandwidth and weight
     bwassign(g)
-    # bwfilter(g, bwlimit)
-
-
-
-        
-    link_dict = {}
     weightassignment = weightassign(g)
+
+
+    ## 3rd split the function below is the TE matrix creation and creating link dict for later look up
+    link_dict = {}
+
     edgelist = list(g.edges)
-    
+
     ## generate each node's parent node
     for pair in g.edges:
         if pair[0] in link_dict:
@@ -254,28 +259,26 @@ def lbnxgraphgenerator(nodes,p):
 
     pos = nx.spring_layout(g)
     
-    print()
-    print(inputdistance)
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/latency_list.json', 'w') as json_file:
+
+    with open('../test/data/latency_list.json', 'w') as json_file:
         data = inputlatency
         json.dump(data, json_file, indent=4)
     
 
     # Draw the graph according to node positions
     labels = nx.get_edge_attributes(g,'bandwidth')
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json', 'w') as json_file:
+    with open('../test/data/LB_linklist.json', 'w') as json_file:
         data = link_list
         json.dump(data, json_file,indent=4)
 
     rhsbw = bwlinklist(g,link_list)
 
-    with open("/Users/yifeiwang/Desktop/5.3code/pce/test/data/latency_list.json") as f:
+    with open("../test/data/latency_list.json") as f:
         latency_list = json.load(f)
     latconstraintmaker(source_destination_list, latency_list)
     linknum = len(link_list)
     jsonfilemaker(nodes, inputmatrix, inputdistance, source_destination_list,rhsbw, linknum)
-    print("link##: "+str(len(link_list)))
-    print(source_destination_list)
+
 
 
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
