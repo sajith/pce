@@ -27,6 +27,7 @@ def weightassign(g):
     distance_list = []
     latency_list = []
     for (u,v,w) in g.edges(data=True):
+        #delete the random attribute assignment if not use random topology generator
         w['weight'] = random.randint(1,2**24) #10-10^9
         
         latency = random.randint(1,10) #10,100 1/100 msec
@@ -152,28 +153,31 @@ def latconstraintmaker(request_list, latency_list):
 # inputs
 # nodes: Total number of the random network's nodes
 # p: link creation probability
+def GetNetworkToplogy(nodes,p):
+    g = erdos_renyi_graph(nodes, p)
 
-def lbnxgraphgenerator(nodes,p):
-    # 1st read in connection request
-    with open('../test/data/connection.json') as f:
-        source_destination_list = json.load(f)
-
-    # random.seed(1)
-    # 2nd g is the input topology in NetworkX
-    g = erdos_renyi_graph(nodes,p)
-    
     while True:
         if nx.is_connected(g):
             break
         else:
-            g = erdos_renyi_graph(nodes,p)
-
-    # only used for random graph generation to assign bandwidth and weight
+            g = erdos_renyi_graph(nodes, p)
     bwassign(g)
+    return g
+
+def GetConnection(path):
+    with open(path) as f:
+        source_destination_list = json.load(f)
+    return source_destination_list
+
+def lbnxgraphgenerator(nodes,p):
+    # 1st read in connection request
+    source_destination_list = GetConnection('../test/data/connection.json')
+
+    # 2nd g is the input topology in NetworkX
+    g = GetNetworkToplogy(nodes,p)
+
+    # 3rd split the function below is the TE matrix creation and creating link dict for later look up\
     weightassignment = weightassign(g)
-
-
-    ## 3rd split the function below is the TE matrix creation and creating link dict for later look up
     link_dict = {}
 
     edgelist = list(g.edges)
