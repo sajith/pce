@@ -158,9 +158,9 @@ def runMC_Solver():
     output = MC_Solver(data)
     solution = output[0]
     objective =output[1]
-    print(solution_translator(solution,'../test/data/LB_linklist.json'), objective)
+    # print(solution_translator(solution,'../test/data/LB_linklist.json'), objective)
 
     return solution_translator(solution,'../test/data/LB_linklist.json'), objective
 
 
-print(runMC_Solver())
+# print(runMC_Solver())

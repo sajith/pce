@@ -10,7 +10,7 @@ import networkx as nx
 import random
 import operator
 import json
-from solver import solvermethod
+
 
 def sorting_allpath_bylatency(allpath_list, g):
     allpath_dict = {}

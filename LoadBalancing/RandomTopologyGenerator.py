@@ -14,6 +14,8 @@ import json
 
 import copy
 
+random.seed(2022)
+
 def zerolistmaker(n):
     listofzeros = [0] * n
     return listofzeros
@@ -154,7 +156,7 @@ def latconstraintmaker(request_list, latency_list):
 # nodes: Total number of the random network's nodes
 # p: link creation probability
 def GetNetworkToplogy(nodes,p):
-    g = erdos_renyi_graph(nodes, p)
+    g = erdos_renyi_graph(nodes, p, seed=2022)
 
     while True:
         if nx.is_connected(g):
@@ -284,10 +286,10 @@ def lbnxgraphgenerator(nodes,p):
     jsonfilemaker(nodes, inputmatrix, inputdistance, source_destination_list,rhsbw, linknum)
 
 
-
+    print("Topology Generated!")
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
     
 
-print(lbnxgraphgenerator(25, 0.4))
+# print(lbnxgraphgenerator(25, 0.4))
 

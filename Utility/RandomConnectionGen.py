@@ -1,7 +1,9 @@
 import numpy as np
 import json
 
+
 def RandomConnectionGenerator(nodes, querynum, bw, latencylimit):
+    np.random.seed(2022)
     connection = []
     for i in range(querynum):
         query = []
