@@ -57,7 +57,7 @@ def solution_translator(solution,linklistname):
     with open(linklistname) as f:
         linklist = json.load(f)
     link_num = len(linklist)
-    print("num"+str(link_num))
+
     solution_list = list(split(solution, link_num))
     path_list = {}
     c = 1
@@ -67,7 +67,7 @@ def solution_translator(solution,linklistname):
         
         for solution in request:
             if abs(solution - 1) < 0.01:
-                print(i)
+
                 individual_solution.append(linklist[i])
             i += 1
                                 
@@ -83,7 +83,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json') as f:
+    with open('../test/data/connection.json') as f:
           query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -107,8 +107,7 @@ def MC_Solver(data):
     graph = create_data_model(data)
     data = graph[0]
     num_inequality = graph[1]
-    print(num_inequality)
-    print(data['num_constraints']-num_inequality)
+
     # Create the mip solver with the SCIP backend.
     solver = pywraplp.Solver.CreateSolver('SCIP')
 
@@ -139,12 +138,12 @@ def MC_Solver(data):
     if status == pywraplp.Solver.OPTIMAL:
         print('Objective value =', solver.Objective().Value())
         for j in range(data['num_vars']):
-            print(x[j].name(), ' = ', x[j].solution_value())
+            # print(x[j].name(), ' = ', x[j].solution_value())
             solution.append(x[j].solution_value())
         print()
-        print('Problem solved in %f milliseconds' % solver.wall_time())
-        print('Problem solved in %d iterations' % solver.iterations())
-        print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
+        # print('Problem solved in %f milliseconds' % solver.wall_time())
+        # print('Problem solved in %d iterations' % solver.iterations())
+        # print('Problem solved in %d branch-and-bound nodes' % solver.nodes())
     else:
         print('The problem does not have an optimal solution.')
     
@@ -152,16 +151,16 @@ def MC_Solver(data):
 
     
 def runMC_Solver():
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_data.json') as f:
+    with open('../test/data/LB_data.json') as f:
           data = json.load(f)
 
 
     output = MC_Solver(data)
     solution = output[0]
     objective =output[1]
+    # print(solution_translator(solution,'../test/data/LB_linklist.json'), objective)
+
+    return solution_translator(solution,'../test/data/LB_linklist.json'), objective
 
 
-    return solution_translator(solution,'/Users/yifeiwang/Desktop/5.3code/pce/test/data/LB_linklist.json'), objective
-
-
-print(runMC_Solver())
+# print(runMC_Solver())

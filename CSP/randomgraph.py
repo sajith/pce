@@ -10,7 +10,7 @@ import networkx as nx
 import random
 import operator
 import json
-from solver import solvermethod
+
 
 def sorting_allpath_bylatency(allpath_list, g):
     allpath_dict = {}
@@ -144,7 +144,7 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance, link_list, max_latency, sor
     jsonoutput['num_vars'] = len(link_list)
     jsonoutput['num_constraints'] = len(inputmatrix)
     jsonoutput['max_latency'] = max_latency
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/data.json', 'w') as json_file:
+    with open('../test/data/data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
   
     try:
@@ -170,7 +170,7 @@ def bwlinklist(g,link_list):
             bw = bwlinklist[(pair[1], pair[0])]
             bwlinkdict.append(bw)
     #
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/bwlinklist.json', 'w') as json_file:
+    with open('../test/data/bwlinklist.json', 'w') as json_file:
         data = bwlinkdict
         json.dump(data, json_file, indent=4)
     print(bwlinkdict)
@@ -308,7 +308,7 @@ def nxgraphgenerator(nodes,p,max_latency,bwlimit):
     jsonoutput['num_vars'] = len(link_list)
     jsonoutput['num_constraints'] = len(inputmatrix)
     jsonoutput['max_latency'] = max_latency
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/data.json', 'w') as json_file:
+    with open('../test/data/data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
   
     try:
@@ -319,7 +319,7 @@ def nxgraphgenerator(nodes,p,max_latency,bwlimit):
         weightoutput = "Null"
 
 
-    with open('/Users/yifeiwang/Desktop/test214/pce/test/data/linklist.json', 'w') as json_file:
+    with open('../test/data/linklist.json', 'w') as json_file:
         data = link_list
         json.dump(data, json_file,indent=4)
     

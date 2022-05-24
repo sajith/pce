@@ -1,7 +1,9 @@
 import numpy as np
 import json
 
+
 def RandomConnectionGenerator(nodes, querynum, bw, latencylimit):
+    np.random.seed(2022)
     connection = []
     for i in range(querynum):
         query = []
@@ -11,7 +13,7 @@ def RandomConnectionGenerator(nodes, querynum, bw, latencylimit):
         query.append(np.random.randint(latencylimit, latencylimit+latencylimit/2))
         connection.append(query)
 
-    with open('/Users/yifeiwang/Desktop/5.3code/pce/test/data/connection.json', 'w') as json_file:
+    with open('../test/data/connection.json', 'w') as json_file:
         data = connection
         json.dump(data, json_file, indent=4)
 
