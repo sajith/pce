@@ -71,7 +71,7 @@ def solution_translator(solution,linklistname):
                 individual_solution.append(linklist[i])
             i += 1
                                 
-        path_list[c] = individual_solution
+        path_list[str(c)] = individual_solution
         c+=1
     ordered_path_list = pathordering(path_list)
     return ordered_path_list
@@ -160,7 +160,9 @@ def runMC_Solver():
     objective =output[1]
     # print(solution_translator(solution,'../test/data/LB_linklist.json'), objective)
 
-    return solution_translator(solution,'../test/data/LB_linklist.json'), objective
+    return [solution_translator(solution,'../test/data/LB_linklist.json'), objective]
 
 
 # print(runMC_Solver())
+
+#sol = ({1: [[1, 24], [24, 11]], 2: [[3, 22], [22, 23], [23, 12], [12, 7], [7, 17], [17, 18]], 3: [[2, 20], [20, 17], [17, 9], [9, 13]]}, 24789877.0)
