@@ -284,8 +284,8 @@ def lbnxgraphgenerator(nodes,p,connection,g):
     print("Topology Generated!")
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
-#
-# connection = GetConnection('../test/data/test_connection.json')
-# g = GetNetworkToplogy(25,0.4)
-# print(lbnxgraphgenerator(25, 0.4,connection,g))
+
+connection = GetConnection('../test/data/test_connection.json')
+g = GetNetworkToplogy(25,0.4)
+print(lbnxgraphgenerator(25, 0.4,connection,g))
 
