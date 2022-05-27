@@ -22,10 +22,12 @@ def zerolistmaker(n):
 
 # use global variable to represent bw
 def bwassign(g): ## pass in the bw name
+    random.seed(2022)
     for (u,v,w) in g.edges(data=True):
         w['bandwidth'] = random.randint(2000,3000)
         
 def weightassign(g):
+    random.seed(2022)
     distance_list = []
     latency_list = []
     for (u,v,w) in g.edges(data=True):
@@ -162,23 +164,16 @@ def GetNetworkToplogy(nodes,p):
         if nx.is_connected(g):
             break
         else:
-            g = erdos_renyi_graph(nodes, p)
+            g = erdos_renyi_graph(nodes, p,seed=2023)
     bwassign(g)
     return g
 
 def GetConnection(path):
     with open(path) as f:
-        source_destination_list = json.load(f)
-    return source_destination_list
+        connection = json.load(f)
+    return connection
 
-def lbnxgraphgenerator(nodes,p):
-    # 1st read in connection request
-    source_destination_list = GetConnection('../test/data/connection.json')
-
-    # 2nd g is the input topology in NetworkX
-    g = GetNetworkToplogy(nodes,p)
-
-    # 3rd split the function below is the TE matrix creation and creating link dict for later look up\
+def lbnxgraphgenerator(nodes,p,connection,g):
     weightassignment = weightassign(g)
     link_dict = {}
 
@@ -281,15 +276,16 @@ def lbnxgraphgenerator(nodes,p):
 
     with open("../test/data/latency_list.json") as f:
         latency_list = json.load(f)
-    latconstraintmaker(source_destination_list, latency_list)
+    latconstraintmaker(connection, latency_list)
     linknum = len(link_list)
-    jsonfilemaker(nodes, inputmatrix, inputdistance, source_destination_list,rhsbw, linknum)
+    jsonfilemaker(nodes, inputmatrix, inputdistance, connection,rhsbw, linknum)
 
 
     print("Topology Generated!")
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
-    
 
-# print(lbnxgraphgenerator(25, 0.4))
+# connection = GetConnection('../test/data/test_connection.json')
+# g = GetNetworkToplogy(25,0.4)
+# print(lbnxgraphgenerator(25, 0.4,connection,g))
 
