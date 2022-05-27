@@ -31,11 +31,11 @@ def Heuristic_CSP(connection,g):
 
     return[pathlist,cost]
 
-with open('../test/data/connection.json') as f:
-      connection= json.load(f)
-
-g = GetNetworkToplogy(25,0.4)
-print(Heuristic_CSP(connection,g))
+# with open('../test/data/connection.json') as f:
+#       connection= json.load(f)
+#
+# g = GetNetworkToplogy(25,0.4)
+# print(Heuristic_CSP(connection,g))
 
 
 
