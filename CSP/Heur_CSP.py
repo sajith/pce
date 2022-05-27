@@ -3,6 +3,7 @@ from LoadBalancing.RandomTopologyGenerator import lbnxgraphgenerator
 from LoadBalancing.RandomTopologyGenerator import GetNetworkToplogy
 import json
 
+
 def ConnectionSplit(connection):
     with open('../test/data/splittedconnection.json', 'w') as json_file:
         data = connection
