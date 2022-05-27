@@ -163,6 +163,6 @@ def runMC_Solver():
     return [solution_translator(solution,'../test/data/LB_linklist.json'), objective]
 
 
-print(runMC_Solver())
+# print(runMC_Solver())
 
 #sol = ({1: [[1, 24], [24, 11]], 2: [[3, 22], [22, 23], [23, 12], [12, 7], [7, 17], [17, 18]], 3: [[2, 20], [20, 17], [17, 9], [9, 13]]}, 24789877.0)
