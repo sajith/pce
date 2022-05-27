@@ -22,10 +22,12 @@ def zerolistmaker(n):
 
 # use global variable to represent bw
 def bwassign(g): ## pass in the bw name
+    random.seed(2022)
     for (u,v,w) in g.edges(data=True):
         w['bandwidth'] = random.randint(2000,3000)
         
 def weightassign(g):
+    random.seed(2022)
     distance_list = []
     latency_list = []
     for (u,v,w) in g.edges(data=True):
@@ -162,7 +164,7 @@ def GetNetworkToplogy(nodes,p):
         if nx.is_connected(g):
             break
         else:
-            g = erdos_renyi_graph(nodes, p)
+            g = erdos_renyi_graph(nodes, p,seed=2023)
     bwassign(g)
     return g
 
@@ -282,8 +284,8 @@ def lbnxgraphgenerator(nodes,p,connection,g):
     print("Topology Generated!")
     return ("Random Graph is created with " + str(nodes) + " nodes, probability of link creation is " + str(p))
 
-    
-connection = GetConnection('../test/data/connection.json')
-g = GetNetworkToplogy(25,0.4)
-print(lbnxgraphgenerator(25, 0.4,connection,g))
+#
+# connection = GetConnection('../test/data/test_connection.json')
+# g = GetNetworkToplogy(25,0.4)
+# print(lbnxgraphgenerator(25, 0.4,connection,g))
 

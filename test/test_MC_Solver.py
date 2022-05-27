@@ -4,7 +4,7 @@ from LoadBalancing.MC_Solver import runMC_Solver
 from LoadBalancing.RandomTopologyGenerator import GetNetworkToplogy
 from LoadBalancing.RandomTopologyGenerator import lbnxgraphgenerator
 
-class Test_Load_Balancing_Solver(unittest.TestCase):
+class Test_MC_Solver(unittest.TestCase):
     def setUp(self):
         with open('data/test_connection.json', 'r') as f:
             connection = json.load(f)

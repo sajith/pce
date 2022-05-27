@@ -179,5 +179,5 @@ def runLB_UT_Solver():
 
     return [solution_translator(solution, '../test/data/LB_linklist.json'), objective]
 
-print(runLB_UT_Solver())
+# print(runLB_UT_Solver())
 # sol = ({1: [[1, 11]], 2: [[3, 21], [21, 18]], 3: [[2, 13]]}, 0.06924572972593251)
