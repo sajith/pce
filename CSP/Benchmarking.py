@@ -1,5 +1,4 @@
 from solver import solvermethod
-from randomgraph import nxgraphgenerator
 import numpy as np
 import matplotlib.pyplot as plt
 import json
