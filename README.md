@@ -76,15 +76,15 @@ cd pce
 pip3 install -r requirements.txt
 ```
 ```
-python setup.py install
+pip install -e .
 ```
 ## Unittest
 
 ```
-python -m unittest -v test.test_LB_Solver
+python -m unittest -v tests.LoadBalancing.test_LB_Solver
 ```
 ```
-python -m unittest -v test.test_MC_Solver
+python -m unittest -v tests.LoadBalancing.test_MC_Solver
 
 Also, every data file was stored in test/data as json file. Remember to change the path according to local directory.
 
