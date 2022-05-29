@@ -62,7 +62,7 @@ def bwlinklist(g,link_list):
             bw = bwlinklist[(pair[1], pair[0])]
             bwlinkdict.append(bw)
     #
-    with open('./tests/LoadBalancing/data/bwlinklist.json', 'w') as json_file:
+    with open('./tests/data/bwlinklist.json', 'w') as json_file:
         data = bwlinkdict
         json.dump(data, json_file, indent=4)
 
@@ -113,7 +113,7 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance,request_list,rhsbw, linknum)
     for i in range(len(request_list)):
         cost += cost_list
 
-    with open('./tests/LoadBalancing/data/latconstraint.json') as f:
+    with open('./tests/data/latconstraint.json') as f:
         latconstraint = json.load(f)
     lhs+=latconstraint['lhs']
     bounds+=latconstraint['rhs']
@@ -125,7 +125,7 @@ def jsonfilemaker(nodes, inputmatrix, inputdistance,request_list,rhsbw, linknum)
     jsonoutput['num_constraints'] = len(bounds)
     jsonoutput['num_inequality'] = linknum + int(len(request_list))
 
-    with open('./tests/LoadBalancing/data/LB_data.json', 'w') as json_file:
+    with open('./tests/data/LB_data.json', 'w') as json_file:
         json.dump(jsonoutput, json_file,indent=4)
 
 
@@ -150,7 +150,7 @@ def latconstraintmaker(request_list, latency_list):
     latdata["lhs"] = lhs
     latdata["rhs"] = rhs
 
-    with open('./tests/LoadBalancing/data/latconstraint.json', 'w') as json_file:
+    with open('./tests/data/latconstraint.json', 'w') as json_file:
         data = latdata
         json.dump(data, json_file, indent=4)
 
@@ -261,20 +261,20 @@ def lbnxgraphgenerator(nodes,p,connection,g):
     pos = nx.spring_layout(g)
     
 
-    with open('./tests/LoadBalancing/data/latency_list.json', 'w') as json_file:
+    with open('./tests/data/latency_list.json', 'w') as json_file:
         data = inputlatency
         json.dump(data, json_file, indent=4)
     
 
     # Draw the graph according to node positions
     labels = nx.get_edge_attributes(g,'bandwidth')
-    with open('./tests/LoadBalancing/data/LB_linklist.json', 'w') as json_file:
+    with open('./tests/data/LB_linklist.json', 'w') as json_file:
         data = link_list
         json.dump(data, json_file,indent=4)
 
     rhsbw = bwlinklist(g,link_list)
 
-    with open("./tests/LoadBalancing/data/latency_list.json") as f:
+    with open("./tests/data/latency_list.json") as f:
         latency_list = json.load(f)
     latconstraintmaker(connection, latency_list)
     linknum = len(link_list)

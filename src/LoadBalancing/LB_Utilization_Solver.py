@@ -12,12 +12,12 @@ import json
 
 
 def create_data_model(graph):
-    with open('./tests/LoadBalancing/data/connection.json') as f:
+    with open('./tests/data/connection.json') as f:
           query_list = json.load(f)
     commodity_query_list = []
     for query in query_list:
         commodity_query_list.append(query[2])
-    with open('./tests/LoadBalancing/data/bwlinklist.json') as f:
+    with open('./tests/data/bwlinklist.json') as f:
           bwlist = json.load(f)
     obj_coeffs = []
     for bw in commodity_query_list:
@@ -105,7 +105,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('./tests/LoadBalancing/data/connection.json') as f:
+    with open('./tests/data/connection.json') as f:
         query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -169,7 +169,7 @@ def LB_Solver(data):
     return solution, solver.Objective().Value()
 
 def runLB_UT_Solver():
-    with open('./tests/LoadBalancing/data/LB_data.json') as f:
+    with open('./tests/data/LB_data.json') as f:
         data = json.load(f)
 
     output = LB_Solver(data)
@@ -177,7 +177,7 @@ def runLB_UT_Solver():
     objective =output[1]
 
 
-    return [solution_translator(solution, './tests/LoadBalancing/data/LB_linklist.json'), objective]
+    return [solution_translator(solution, './tests/data/LB_linklist.json'), objective]
 
 # print(runLB_UT_Solver())
 # sol = ({1: [[1, 11]], 2: [[3, 21], [21, 18]], 3: [[2, 13]]}, 0.06924572972593251)

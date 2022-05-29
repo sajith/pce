@@ -83,7 +83,7 @@ def pathordering(path_list):
     ordered_path_list = {}
     source_list = []
     c = 0
-    with open('./test/data/connection.json') as f:
+    with open('./tests/data/connection.json') as f:
           query_list = json.load(f)
     for query in query_list:
         source_list.append(query[0])
@@ -151,7 +151,7 @@ def MC_Solver(data):
 
     
 def runMC_Solver():
-    with open('./test/data/LB_data.json') as f:
+    with open('./tests/data/LB_data.json') as f:
           data = json.load(f)
 
 
@@ -160,7 +160,7 @@ def runMC_Solver():
     objective =output[1]
     # print(solution_translator(solution,'../test/data/LB_linklist.json'), objective)
 
-    return [solution_translator(solution,'./test/data/LB_linklist.json'), objective]
+    return [solution_translator(solution,'./tests/data/LB_linklist.json'), objective]
 
 
 # print(runMC_Solver())

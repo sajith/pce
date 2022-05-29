@@ -5,7 +5,7 @@ import json
 
 
 def ConnectionSplit(connection):
-    with open('./test/data/splittedconnection.json', 'w') as json_file:
+    with open('./tests/data/splittedconnection.json', 'w') as json_file:
         data = connection
         json.dump(data, json_file, indent=4)
 
@@ -15,11 +15,11 @@ def Heuristic_CSP(connection,g):
     pathlist = {}
     cost = 0
     c = 1
-    with open('./test/data/splittedconnection.json') as f:
+    with open('./tests/data/splittedconnection.json') as f:
           connection= json.load(f)
     for query in connection:
         singleconnection = [query]
-        with open('./test/data/connection.json', 'w') as json_file:
+        with open('./tests/data/connection.json', 'w') as json_file:
             data = singleconnection
             json.dump(data, json_file, indent=4)
 

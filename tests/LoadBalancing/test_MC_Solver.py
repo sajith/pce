@@ -6,8 +6,8 @@ from LoadBalancing.RandomTopologyGenerator import GetConnection
 from LoadBalancing.RandomTopologyGenerator import lbnxgraphgenerator
 
 Topology = GetNetworkToplogy(25,0.4)
-Connection = GetConnection('./test/data/test_connection.json')
-Solution = './test/data/test_MC_solution.json'
+Connection = GetConnection('./tests/data/test_connection.json')
+Solution = './tests/data/test_MC_solution.json'
 
 class Test_MC_Solver(unittest.TestCase):
     def setUp(self):
@@ -16,7 +16,7 @@ class Test_MC_Solver(unittest.TestCase):
         self.connection = Connection
         self.topology = Topology
         self.solution = solution
-        with open('./test/data/connection.json', 'w') as json_file:
+        with open('./tests/data/connection.json', 'w') as json_file:
             json.dump(self.connection, json_file, indent=4)
 
     def test_Computation(self):
