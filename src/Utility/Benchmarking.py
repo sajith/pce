@@ -1,4 +1,5 @@
 from LoadBalancing.MC_Solver import runMC_Solver
+from LoadBalancing.RandomTopologyGenerator import lbnxgraphgenerator
 import numpy as np
 import matplotlib.pyplot as plt
 import json
@@ -144,7 +145,7 @@ def test(latency, nodes, n, samplenumber, coefficient, bwlimit):
     length = int(nodes[1]-nodes[0])
     for i in range(length):
         for c in range(samplenumber):
-            answer = nxgraphgenerator(nodes[0]+i,0.2,1000,20)
+            answer = lbnxgraphgenerator(nodes[0]+i,0.2,1000,20)
             check = answer[2]
             if not isinstance(check, str):
                 # result = [latencyoutput,latencytime,weightoutput,weighttime]
