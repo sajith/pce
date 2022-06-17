@@ -1,4 +1,4 @@
-from solver import solvermethod
+from LoadBalancing.MC_Solver import runMC_Solver
 import numpy as np
 import matplotlib.pyplot as plt
 import json
@@ -152,7 +152,9 @@ def test(latency, nodes, n, samplenumber, coefficient, bwlimit):
                 heurtime = answer[1]
                 weight = answer [2]
                 weighttime = answer[3]
-                solveranswer = solvermethod()
+                with open('./tests/data/LB_data.json') as f:
+                    data = json.load(f)
+                solveranswer = runMC_Solver(data)
                 solver = solveranswer[0]
                 solvertime = solveranswer[1]         
                 node = nodes[0]+i
